@@ -19,7 +19,7 @@ import model.Produto;
 
 /**
  *
- * @author kira
+ * @author guifarah
  */
 public class ItemPedidoView extends javax.swing.JFrame {
     private List<Produto> produtoList = new ProdutoController().listaProdutos();
