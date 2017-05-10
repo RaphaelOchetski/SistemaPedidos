@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PedidoDao.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;sistemaPedidos&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">PedidoDao.java</span></div><h1>PedidoDao.java</h1><pre class="source lang-java linenums">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.naming.spi.DirStateFactory;
+
+/**
+ *
+ * @author l03e06
+ */
+<span class="nc" id="L18">public class PedidoDao extends GenericDao {</span>
+    
+    public void alterar(Pedido pedido) throws SQLException{
+<span class="nc" id="L21">        String update = &quot;UPDATE PEDIDO &quot; +</span>
+                    &quot;SET IDSTATUS = ?, VALORTOTAL = ? &quot; + 
+                    &quot;WHERE IDPEDIDO = ?&quot;;
+<span class="nc" id="L24">        update(update, pedido.getIdpedido(), pedido.getStatus(), pedido.getValortotal());</span>
+<span class="nc" id="L25">    }</span>
+    
+    public void encerrarPedido(Pedido pedido) throws SQLException{
+<span class="nc" id="L28">        String update = &quot;UPDATE Pedido &quot; +</span>
+                    &quot;SET idstatus = 0 &quot; + 
+                    &quot;WHERE idpedido = ?&quot;;
+<span class="nc" id="L31">        update(update, pedido.getIdpedido());</span>
+<span class="nc" id="L32">    }</span>
+    
+     public void salvar() throws SQLException{
+<span class="nc" id="L35">        String insert = &quot;INSERT INTO Pedido(data, idstatus) VALUES (CURDATE(),1)&quot;;</span>
+<span class="nc" id="L36">        save(insert); </span>
+<span class="nc" id="L37">    }</span>
+    
+    public void excluir (int idpedido) throws SQLException{
+<span class="nc" id="L40">        String delete = &quot;DELETE FROM PEDIDO WHERE idpedido = ?&quot;;</span>
+<span class="nc" id="L41">        delete (delete, idpedido);</span>
+<span class="nc" id="L42">    }</span>
+    
+    public List&lt;Pedido&gt; findPedido() throws SQLException {
+<span class="nc" id="L45">        List&lt;Pedido&gt; pedidos = new ArrayList&lt;Pedido&gt;();</span>
+<span class="nc" id="L46">        String select = &quot;SELECT * FROM PEDIDO&quot;;</span>
+<span class="nc" id="L47">        PreparedStatement stmt = (PreparedStatement) getConnection().prepareStatement(select);</span>
+<span class="nc" id="L48">        ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        while (rs.next()) {</span>
+<span class="nc" id="L50">            Pedido pedido = new Pedido();</span>
+<span class="nc" id="L51">            pedido.setIdpedido(rs.getInt(&quot;idpedido&quot;));</span>
+<span class="nc" id="L52">            pedido.setData(rs.getString(&quot;data&quot;));</span>
+<span class="nc" id="L53">            pedido.setStatus(rs.getInt(&quot;idstatus&quot;));</span>
+<span class="nc" id="L54">            pedido.setValortotal(rs.getDouble(&quot;valortotal&quot;));</span>
+<span class="nc" id="L55">            pedidos.add(pedido);</span>
+            
+<span class="nc" id="L57">        }</span>
+<span class="nc" id="L58">        rs.close();</span>
+<span class="nc" id="L59">        stmt.close();</span>
+<span class="nc" id="L60">        return pedidos;</span>
+    }
+    
+   /** public List&lt;Pedido&gt; findStatus() throws SQLException {
+        List&lt;Pedido&gt; pedidos = new ArrayList&lt;Pedido&gt;();
+        String select = &quot;SELECT * FROM STATUS&quot;;
+        PreparedStatement stmt = (PreparedStatement) getConnection().prepareStatement(select);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Mesa mesa = new Mesa();
+            mesa.setIdMesa(rs.getInt(&quot;idmesa&quot;));
+            mesa.setDescricao(rs.getString(&quot;descricao&quot;));
+            mesa.setStatus(rs.getInt(&quot;status&quot;));
+            mesas.add(mesa);
+            
+        }
+        rs.close();
+        stmt.close();
+        return mesas;
+    }**/
+    
+    
+     public List&lt;Mesa&gt; findByDescricao (String descricao) throws SQLException{
+<span class="nc" id="L83">        List&lt;Mesa&gt; mesas = new ArrayList&lt;Mesa&gt;();</span>
+<span class="nc" id="L84">        String select = &quot;SELECT * FROM mesa where descricao like ? '%'&quot;;</span>
+<span class="nc" id="L85">        PreparedStatement stmt = (PreparedStatement) getConnection().prepareStatement(select);</span>
+<span class="nc" id="L86">        stmt.setString(1, descricao);</span>
+<span class="nc" id="L87">        ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        while (rs.next()) {</span>
+<span class="nc" id="L89">            Mesa mesa = new Mesa();</span>
+<span class="nc" id="L90">            mesa.setIdMesa(rs.getInt(&quot;idmesa&quot;));</span>
+<span class="nc" id="L91">            mesa.setDescricao(rs.getString(&quot;descricao&quot;));</span>
+<span class="nc" id="L92">            mesa.setStatus(rs.getInt(&quot;status&quot;));</span>
+<span class="nc" id="L93">            mesas.add(mesa);</span>
+            
+<span class="nc" id="L95">        }</span>
+<span class="nc" id="L96">        rs.close();</span>
+<span class="nc" id="L97">        stmt.close();</span>
+<span class="nc" id="L98">        return mesas;</span>
+    }
+     
+     public List&lt;Mesa&gt; findMesaAtiva() throws SQLException {
+<span class="nc" id="L102">        List&lt;Mesa&gt; mesas = new ArrayList&lt;Mesa&gt;();</span>
+<span class="nc" id="L103">        String select = &quot;SELECT * FROM MESA WHERE STATUS = 1 OR STATUS = 2&quot;;</span>
+<span class="nc" id="L104">        PreparedStatement stmt = (PreparedStatement) getConnection().prepareStatement(select);</span>
+<span class="nc" id="L105">        ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        while (rs.next()) {</span>
+<span class="nc" id="L107">            Mesa mesa = new Mesa();</span>
+<span class="nc" id="L108">            mesa.setIdMesa(rs.getInt(&quot;idmesa&quot;));</span>
+<span class="nc" id="L109">            mesa.setDescricao(rs.getString(&quot;descricao&quot;));</span>
+<span class="nc" id="L110">            mesa.setStatus(rs.getInt(&quot;status&quot;));</span>
+<span class="nc" id="L111">            mesas.add(mesa);</span>
+            
+<span class="nc" id="L113">        }</span>
+<span class="nc" id="L114">        rs.close();</span>
+<span class="nc" id="L115">        stmt.close();</span>
+<span class="nc" id="L116">        return mesas;</span>
+    }
+     
+     public List&lt;Mesa&gt; findMesaEncerrar() throws SQLException {
+<span class="nc" id="L120">        List&lt;Mesa&gt; mesas = new ArrayList&lt;Mesa&gt;();</span>
+<span class="nc" id="L121">        String select = &quot;SELECT * FROM MESA&quot;;</span>
+<span class="nc" id="L122">        PreparedStatement stmt = (PreparedStatement) getConnection().prepareStatement(select);</span>
+<span class="nc" id="L123">        ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        while (rs.next()) {</span>
+<span class="nc" id="L125">            Mesa mesa = new Mesa();</span>
+<span class="nc" id="L126">            mesa.setIdMesa(rs.getInt(&quot;idmesa&quot;));</span>
+<span class="nc" id="L127">            mesa.setDescricao(rs.getString(&quot;descricao&quot;));</span>
+<span class="nc" id="L128">            mesa.setStatus(rs.getInt(&quot;status&quot;));</span>
+<span class="nc" id="L129">            mesas.add(mesa);</span>
+            
+<span class="nc" id="L131">        }</span>
+<span class="nc" id="L132">        rs.close();</span>
+<span class="nc" id="L133">        stmt.close();</span>
+<span class="nc" id="L134">        return mesas;</span>
+    }
+     
+     public Mesa findMesaPorId(int mesa_id) throws SQLException {
+      
+<span class="nc" id="L139">        String select = &quot;SELECT * FROM mesa WHERE idmesa = ?&quot;;</span>
+<span class="nc" id="L140">        PreparedStatement stmt = (PreparedStatement) getConnection().prepareStatement(select);</span>
+<span class="nc" id="L141">        stmt.setInt(1, mesa_id);</span>
+<span class="nc" id="L142">        ResultSet rs = stmt.executeQuery();</span>
+<span class="nc" id="L143">        rs.next();</span>
+        
+       
+<span class="nc" id="L146">            Mesa mesa = new Mesa();</span>
+<span class="nc" id="L147">            mesa.setIdMesa(rs.getInt(&quot;idmesa&quot;));</span>
+<span class="nc" id="L148">            mesa.setDescricao(rs.getString(&quot;descricao&quot;));</span>
+<span class="nc" id="L149">            mesa.setStatus(rs.getInt(&quot;status&quot;));</span>
+                      
+        
+<span class="nc" id="L152">        rs.close();</span>
+<span class="nc" id="L153">        stmt.close();</span>
+<span class="nc" id="L154">        return mesa;</span>
+    }
+     
+     
+
+   
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

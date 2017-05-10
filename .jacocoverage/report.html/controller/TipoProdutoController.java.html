@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TipoProdutoController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;sistemaPedidos&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">TipoProdutoController.java</span></div><h1>TipoProdutoController.java</h1><pre class="source lang-java linenums">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package controller;
+
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import model.TipoProduto;
+import model.TipoProdutoDao;
+
+/**
+ *
+ * @author L02E07
+ */
+<span class="nc" id="L18">public class TipoProdutoController {</span>
+    public List&lt;TipoProduto&gt; listaTipoProdutos(){
+<span class="nc" id="L20">        TipoProdutoDao dao = new TipoProdutoDao();</span>
+        try {
+<span class="nc" id="L22">            return dao.findTipoProduto();</span>
+        }
+<span class="nc" id="L24">        catch (SQLException e){</span>
+<span class="nc" id="L25">            JOptionPane.showMessageDialog(null, &quot;Problemas ao localizar Tipo Produto\n&quot;+e.getLocalizedMessage() );</span>
+        }
+<span class="nc" id="L27">        return null;</span>
+    }
+    
+  
+
+    public void alterar(int idtipoproduto, String descricao) throws SQLException{
+<span class="nc" id="L33">        TipoProduto tipoProduto = new TipoProduto();</span>
+<span class="nc" id="L34">        tipoProduto.setIdTipoProduto(idtipoproduto);</span>
+<span class="nc" id="L35">        tipoProduto.setDescricao(descricao);</span>
+<span class="nc" id="L36">        new TipoProdutoDao().alterar(tipoProduto);</span>
+<span class="nc" id="L37">      }</span>
+    
+    public void salvar(String descricao) throws SQLException{
+<span class="nc" id="L40">        TipoProduto tipoProduto = new TipoProduto();</span>
+<span class="nc" id="L41">        tipoProduto.setDescricao(descricao);</span>
+<span class="nc" id="L42">        new TipoProdutoDao().salvar(tipoProduto);</span>
+<span class="nc" id="L43">    }</span>
+    public void excluir(int idtipoproduto) throws SQLException{
+<span class="nc" id="L45">        new TipoProdutoDao().excluir(idtipoproduto);</span>
+<span class="nc" id="L46">    }</span>
+    
+      public TipoProduto buscaTipoProdutoPorDescricao(String descricao) throws SQLException{
+<span class="nc" id="L49">        TipoProdutoDao dao = new TipoProdutoDao();</span>
+<span class="nc" id="L50">        return dao.findByDescricao(descricao);</span>
+    }
+      
+     public TipoProduto buscaTipoProdutoPorId(int tipo_id) throws SQLException{
+<span class="nc" id="L54">        TipoProdutoDao dao = new TipoProdutoDao();</span>
+<span class="nc" id="L55">        return dao.findTipoPorId(tipo_id);</span>
+     }
+}
+   
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
