@@ -17,7 +17,7 @@ import model.PedidoDao;
 
 /**
  *
- * @author l03e06
+ * @author Raphael
  */
 public class PedidoController {
      
