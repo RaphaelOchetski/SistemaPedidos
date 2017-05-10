@@ -7,7 +7,7 @@ package model;
 
 /**
  *
- * @author kira
+ * @author Raphael
  */
 public class ItemPedido {
 
