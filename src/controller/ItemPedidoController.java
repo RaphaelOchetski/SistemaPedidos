@@ -20,7 +20,7 @@ import model.TipoProdutoDao;
 
 /**
  *
- * @author Guilherme
+ * @author Raphael
  */
 public class ItemPedidoController {
     
