@@ -13,7 +13,7 @@ import javax.naming.spi.DirStateFactory;
 
 /**
  *
- * @author l03e06
+ * @author guifarah
  */
 public class ItemPedidoDao extends GenericDao {
     
