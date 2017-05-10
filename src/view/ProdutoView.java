@@ -19,7 +19,7 @@ import model.Produto;
 
 /**
  *
- * @author kira
+ * @author Raphael
  */
 public class ProdutoView extends javax.swing.JFrame {
     
